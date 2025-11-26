@@ -4,7 +4,7 @@ import { Button } from './components/Button';
 import { Modal } from './components/Modal';
 import { APP_TITLE, COPYRIGHT, EXAM_CONFIG, EXAM_LINKS as DEFAULT_LINKS, WELCOME_MSG } from './constants';
 import { GradeLevel, Rombel, Subject, ExamSchedule, LinkMap } from './types';
-import { ArrowLeft, BookOpen, CheckCircle, HelpCircle, Info, LayoutDashboard, Download, Trash2, LogOut, LockKeyhole, FileText, RotateCcw, Calendar, Clock, Settings, AlertCircle, X, Bell, Pencil, Link as LinkIcon, Save, Filter, ChevronDown } from 'lucide-react';
+import { ArrowLeft, BookOpen, CheckCircle, HelpCircle, Info, LayoutDashboard, Download, Trash2, LogOut, LockKeyhole, FileText, RotateCcw, Calendar, Clock, Settings, AlertCircle, X, Bell, Pencil, Link as LinkIcon, Save, Filter, ChevronDown, GraduationCap, Layers, Search } from 'lucide-react';
 
 // Interface untuk Data Presensi
 interface AttendanceRecord {
@@ -884,18 +884,33 @@ const App: React.FC = () => {
         <div className="p-6">
           {dashboardTab === 'attendance' && (
             <div className="animate-fade-in-up">
-              <div className="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-slate-200">
-                <div className="flex items-center gap-2 mb-4 border-b border-slate-100 pb-3">
-                  <Filter size={20} className="text-teal-600" />
-                  <span className="font-bold text-slate-700">Filter Data Presensi</span>
+              
+              {/* NEW FILTER UI */}
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6 group hover:shadow-md transition-shadow duration-300">
+                <div className="bg-slate-50 px-5 py-3 border-b border-slate-100 flex items-center justify-between">
+                   <div className="flex items-center gap-2 text-slate-700">
+                      <div className="bg-teal-100 p-1.5 rounded-lg text-teal-600">
+                        <Filter size={18} />
+                      </div>
+                      <span className="font-bold text-sm">Filter Pencarian</span>
+                   </div>
+                   {(filterGrade || filterRombel || filterSubject) && (
+                     <button onClick={handleResetFilters} className="text-xs text-red-500 hover:text-red-700 font-bold flex items-center gap-1">
+                        <RotateCcw size={12} /> Reset
+                     </button>
+                   )}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div className="p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
                   {/* Grade Filter */}
-                  <div className="relative">
-                      <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Kelas</label>
+                  <div className="relative group/input">
+                      <label className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1.5 ml-1">Kelas</label>
                       <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-teal-500 transition-colors">
+                           <GraduationCap size={18} />
+                        </div>
                         <select
-                          className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all appearance-none"
+                          className="w-full pl-10 pr-10 py-3 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-sm font-bold text-slate-700 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500 transition-all appearance-none cursor-pointer"
                           value={filterGrade}
                           onChange={(e) => setFilterGrade(e.target.value)}
                         >
@@ -909,11 +924,14 @@ const App: React.FC = () => {
                   </div>
 
                   {/* Rombel Filter */}
-                  <div className="relative">
-                      <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Rombel</label>
+                  <div className="relative group/input">
+                      <label className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1.5 ml-1">Rombel</label>
                       <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-teal-500 transition-colors">
+                           <Layers size={18} />
+                        </div>
                         <select
-                          className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all appearance-none"
+                          className="w-full pl-10 pr-10 py-3 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-sm font-bold text-slate-700 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500 transition-all appearance-none cursor-pointer"
                           value={filterRombel}
                           onChange={(e) => setFilterRombel(e.target.value)}
                         >
@@ -927,11 +945,14 @@ const App: React.FC = () => {
                   </div>
 
                   {/* Subject Filter */}
-                  <div className="relative">
-                      <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Mapel</label>
+                  <div className="relative group/input">
+                      <label className="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1.5 ml-1">Mata Pelajaran</label>
                       <div className="relative">
+                        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-teal-500 transition-colors">
+                           <BookOpen size={18} />
+                        </div>
                         <select
-                          className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-500 transition-all appearance-none"
+                          className="w-full pl-10 pr-10 py-3 bg-slate-50 border-0 ring-1 ring-slate-200 rounded-xl text-sm font-bold text-slate-700 focus:outline-none focus:bg-white focus:ring-2 focus:ring-teal-500 transition-all appearance-none cursor-pointer"
                           value={filterSubject}
                           onChange={(e) => setFilterSubject(e.target.value)}
                         >
@@ -944,18 +965,21 @@ const App: React.FC = () => {
                       </div>
                   </div>
 
-                  {/* Reset Button */}
-                  <div className="flex items-end">
-                      <Button onClick={handleResetFilters} variant="outline" fullWidth className="h-[44px] border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-red-500 hover:border-red-200 transition-colors">
-                          <RotateCcw size={18} className="mr-2" /> Reset Filter
+                  {/* Search / Status Indicator (Visual filler if needed, or Reset Button) */}
+                  <div className="relative">
+                       <label className="block text-[10px] uppercase font-bold text-transparent tracking-wider mb-1.5 ml-1 select-none">Action</label>
+                      <Button onClick={handleResetFilters} fullWidth className="h-[46px] bg-white border border-slate-200 text-slate-500 hover:bg-red-50 hover:text-red-600 hover:border-red-200 shadow-sm hover:shadow active:scale-[0.98] transition-all rounded-xl">
+                          <span className="flex items-center justify-center gap-2">
+                             <RotateCcw size={18} /> Reset
+                          </span>
                       </Button>
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
-                <div className="text-gray-600 font-semibold">
-                  Total Presensi: <span className="text-teal-700 text-xl">{filteredAttendanceData.length}</span> / {attendanceData.length} Siswa
+                <div className="text-gray-600 font-semibold text-sm bg-teal-50 px-4 py-2 rounded-lg border border-teal-100">
+                  Total Presensi: <span className="text-teal-700 font-bold text-lg">{filteredAttendanceData.length}</span> <span className="text-slate-400 mx-1">/</span> {attendanceData.length} Siswa
                 </div>
                 <div className="flex gap-2">
                   <Button onClick={handleExportPDF} className="bg-red-500 hover:bg-red-600 shadow-red-200" size="sm">
@@ -964,16 +988,16 @@ const App: React.FC = () => {
                   <Button onClick={handleExportCSV} variant="secondary" size="sm">
                     <Download size={16} className="mr-2 inline" /> CSV
                   </Button>
-                  <Button onClick={handleClearData} className="bg-red-50 text-red-600 hover:bg-red-100 border-red-200 shadow-none" size="sm">
+                  <Button onClick={handleClearData} className="bg-white text-red-500 hover:bg-red-50 border border-red-200 shadow-sm" size="sm">
                     <Trash2 size={16} className="mr-2 inline" /> Hapus
                   </Button>
                 </div>
               </div>
 
-              <div className="overflow-x-auto rounded-xl border border-gray-200">
+              <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="bg-slate-100 text-slate-600 uppercase text-xs font-bold tracking-wider">
+                    <tr className="bg-slate-50 text-slate-600 uppercase text-xs font-bold tracking-wider border-b border-slate-200">
                       <th className="p-4">Waktu</th>
                       <th className="p-4">Nama Lengkap</th>
                       <th className="p-4">NISN</th>
@@ -985,21 +1009,28 @@ const App: React.FC = () => {
                   <tbody className="text-sm divide-y divide-slate-100 bg-white">
                     {filteredAttendanceData.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="p-8 text-center text-gray-400 italic">Data tidak ditemukan.</td>
+                        <td colSpan={6} className="p-12 text-center text-gray-400 italic">
+                           <div className="flex flex-col items-center gap-3">
+                              <div className="bg-slate-50 p-3 rounded-full">
+                                <Search size={24} className="text-slate-300"/>
+                              </div>
+                              <span>Data tidak ditemukan. Coba atur ulang filter.</span>
+                           </div>
+                        </td>
                       </tr>
                     ) : (
                       filteredAttendanceData.map((row) => (
-                        <tr key={row.id} className="hover:bg-slate-50 transition-colors">
-                          <td className="p-4 text-gray-500 whitespace-nowrap">{row.timestamp}</td>
+                        <tr key={row.id} className="hover:bg-teal-50/30 transition-colors group">
+                          <td className="p-4 text-gray-500 whitespace-nowrap text-xs sm:text-sm font-mono">{row.timestamp}</td>
                           <td className="p-4 font-bold text-gray-800">{row.name}</td>
-                          <td className="p-4 text-gray-600 font-mono">{row.nisn}</td>
+                          <td className="p-4 text-gray-600 font-mono text-xs sm:text-sm">{row.nisn}</td>
                           <td className="p-4">
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100">
                               {row.grade} - {row.rombel}
                             </span>
                           </td>
-                          <td className="p-4 text-gray-700">{row.subject}</td>
-                          <td className="p-4 text-gray-500">{row.examType}</td>
+                          <td className="p-4 text-gray-700 font-medium">{row.subject}</td>
+                          <td className="p-4 text-gray-500 text-xs sm:text-sm">{row.examType}</td>
                         </tr>
                       ))
                     )}
